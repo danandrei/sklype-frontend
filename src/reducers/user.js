@@ -1,6 +1,6 @@
 import { userConstants } from '../constants/';
 
-const accessToken = JSON.parse(localStorage.getItem('accessToken'));
+const accessToken = localStorage.getItem('accessToken');
 const initialState = {
   data: null,
   accessToken: accessToken ? accessToken : null,
@@ -8,12 +8,13 @@ const initialState = {
 
 export const user = (state = initialState, action) => {
   switch (action.type) {
-    case userConstants.LOGIN_SUCCESS:
+    case userConstants.SIGN_IN_SUCCESS:
+      localStorage.setItem('accessToken', action.payload.data.data.token);
       return {
         ...state,
-        accessToken: action.accessToken,
+        accessToken: action.payload.data.data.token,
       };
-    case userConstants.LOGOUT:
+    case userConstants.SIGN_OUT:
       return {
         ...state,
         data: null,

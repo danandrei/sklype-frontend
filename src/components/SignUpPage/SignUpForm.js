@@ -1,66 +1,75 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { history } from '../../helpers/';
+import TextField from '../@shared/TextField';
+
+const validate = values => {
+  const errors = {}
+  if (!values.firstName) {
+    errors.firstName = 'Required'
+  }
+
+  if (!values.lastName) {
+    errors.lastName = 'Required'
+  }
+
+  if (!values.email) {
+    errors.email = 'Required'
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address'
+  }
+
+  if (!values.password) {
+    errors.password = 'Required'
+  } else if (values.password.length < 4) {
+    errors.password = 'Must be 4 characters or more'
+  }
+  return errors
+}
 
 const SignUpForm = props => {
   const { error, handleSubmit, submitting } = props;
   return (
     <div className="form-wrapper height-100">
-      <form class="form-signup" onSubmit={handleSubmit}>
-        <div class="text-center mb-4">
-          <h1 class="h3 mb-3 font-weight-normal">Sign up</h1>
+      <form className="form-signup" onSubmit={handleSubmit}>
+        <div className="text-center mb-4">
+          <h1 className="h3 mb-3 font-weight-normal">Sign up</h1>
           <p>Join the fastest growing chat comunity</p>
         </div>
-        <div class="form-label-group">
-          <Field
-            type="text"
-            id="inputFirstName"
-            class="form-control"
-            placeholder="First name"
-            name="firstName"
-            component="input"
-          />
-          <label for="inputFirstName">First name</label>
-        </div>
-        <div class="form-label-group">
-          <Field
-            type="text"
-            id="inputLastName"
-            class="form-control"
-            placeholder="Last name"
-            name="lastName"
-            component="input"
-          />
-          <label for="inputLastName">Last name</label>
-        </div>
-        <div class="form-label-group">
-          <Field
-            type="email"
-            id="inputEmail"
-            class="form-control"
-            placeholder="Email address"
-            name="email"
-            component="input"
-          />
-          <label for="inputEmail">Email address</label>
-        </div>
-        <div class="form-label-group">
-          <Field
-            type="password"
-            id="inputPassword"
-            class="form-control"
-            placeholder="Password"
-            name="password"
-            component="input"
-          />
-          <label for="inputPassword">Password</label>
-        </div>
+        <Field
+          id="inputFirstName"
+          type="text"
+          label="First name"
+          name="firstName"
+          component={TextField}
+        />
+        <Field
+          id="inputLastName"
+          type="text"
+          label="Last name"
+          name="lastName"
+          component={TextField}
+        />
+        <Field
+          id="inputEmail"
+          type="email"
+          label="Email address"
+          name="email"
+          component={TextField}
+        />
+        <Field
+          id="inputPassword"
+          type="password"
+          label="Password"
+          name="password"
+          component={TextField}
+        />
+        {error && <p className="error">{error}</p>}
         <div className="form-label-group">
           <p>Already have an account? <a href="" onClick={() => history.push('/signIn')}>Sign in!</a></p>
         </div>
-        {error && <p className="error">{error}</p>}
-        <button class="btn btn-lg btn-primary btn-block" type="submit" disabled={submitting}>Sign in</button>
-        <p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2018</p>
+        <button className="btn btn-lg btn-primary btn-block" type="submit" disabled={submitting}>Sign up</button>
+        <p className="mt-5 mb-3 text-muted text-center">&copy; 2017-2018</p>
       </form>
     </div>
   );
@@ -68,4 +77,5 @@ const SignUpForm = props => {
 
 export default reduxForm({
   form: 'signUp',
+  validate,
 })(SignUpForm);
