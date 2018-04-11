@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, reset } from 'redux-form';
 import TextField from '../@shared/TextField';
 
 const ChatRoomForm = props => {
@@ -22,6 +22,11 @@ const ChatRoomForm = props => {
   );
 };
 
+const afterSubmit = (result, dispatch) => {
+  dispatch(reset('chatRoomForm'));
+}
+
 export default reduxForm({
-  form: 'chatRoomForm'
+  form: 'chatRoomForm',
+  onSubmitSuccess: afterSubmit,
 })(ChatRoomForm);

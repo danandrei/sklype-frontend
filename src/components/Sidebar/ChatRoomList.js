@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ChatRoomListItem from './ChatRoomListItem';
 import { chatActions } from '../../actions';
+import { chatConstants } from '../../constants';
 
 class ChatRoomList extends Component {
 
@@ -17,13 +18,22 @@ class ChatRoomList extends Component {
     }
   }
 
+  handleRoomSelect (room) {
+    this.props.fetchRoomMessages(room)
+    .then(res => {
+      if (res.type === chatConstants.FETCH_ROOM_MESSAGES_SUCCESS) {
+        this.props.selectChatRoom(room);
+      }
+    });
+  }
+
   renderList () {
     return this.props.chat.rooms.map((room) => {
       return (
         <ChatRoomListItem
           key={room._id}
           room={room}
-          handleClick={()=> {this.props.selectChatRoom(room._id)}}
+          handleClick={()=> {this.handleRoomSelect(room._id)}}
         />
       )
     });
@@ -47,7 +57,7 @@ class ChatRoomList extends Component {
   }
 }
 
-function mapStateToProps (state) {
+const mapStateToProps = (state) => {
   return {
     chat: state.chat,
   };
@@ -58,4 +68,5 @@ export default connect(mapStateToProps, {
   hideSidebarForm: chatActions.hideSidebarForm,
   showSidebarForm: chatActions.showSidebarForm,
   selectChatRoom: chatActions.selectChatRoom,
+  fetchRoomMessages: chatActions.fetchRoomMessages,
 })(ChatRoomList);

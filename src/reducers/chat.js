@@ -3,6 +3,7 @@ import { chatConstants } from '../constants';
 const initialState = {
   rooms: [],
   selectedRoom: null,
+  messages: [],
   ui: {
     sidebarFormVisible: false,
   }
@@ -39,6 +40,21 @@ export const chat = (state = initialState, action) => {
       return {
         ...state,
         selectedRoom: action.room,
+      }
+    case chatConstants.FETCH_ROOM_MESSAGES_SUCCESS:
+      return {
+        ...state,
+        messages: action.payload.data.data.reverse(),
+      }
+    case chatConstants.WS_NEW_ROOM_MESSAGE:
+      const message = action.message;
+      if (message.room === state.selectedRoom) {
+        return {
+          ...state,
+          messages: [...state.messages, message]
+        }
+      } else {
+        return state;
       }
     default:
       return state;

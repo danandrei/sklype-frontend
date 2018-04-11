@@ -17,13 +17,15 @@ class Sidebar extends Component {
           _error: res.error.response.data.message,
         });
       }
+
+      this.props.hideSidebarForm();
     });
   }
 
   render () {
     return (
-      <nav className="col-md-2 d-none d-md-block bg-light sidebar">
-        <div className="sidebar-sticky">
+      <nav className="sidebar">
+        <div className="sidebar-content">
           <ChatRoomList />
           {this.props.chat.ui.sidebarFormVisible && <ChatRoomForm onSubmit={this.handleFormSubmit.bind(this)}/>}
         </div>
@@ -40,4 +42,5 @@ function mapStateToProps (state) {
 
 export default connect(mapStateToProps, {
   createChatRoom: chatActions.createChatRoom,
+  hideSidebarForm: chatActions.hideSidebarForm,
 })(Sidebar);

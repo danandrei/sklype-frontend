@@ -45,10 +45,39 @@ const selectChatRoom = (room) => {
   }
 };
 
+const fetchRoomMessages = (room) => {
+  return {
+    type: chatConstants.FETCH_ROOM_MESSAGES,
+    payload: {
+      request: {
+        method: 'GET',
+        url: '/chat/rooms/' + room + '/messages'
+      }
+    }
+  }
+}
+
+const sendRoomMessage = (room, message) => {
+  return {
+    type: chatConstants.SEND_ROOM_MESSAGE,
+    payload: {
+      request: {
+        method: 'POST',
+        url: '/chat/rooms/' + room + '/messages',
+        data: {
+          message,
+        }
+      }
+    }
+  }
+}
+
 export const chatActions = {
   fetchRooms,
   hideSidebarForm,
   showSidebarForm,
   createChatRoom,
   selectChatRoom,
+  fetchRoomMessages,
+  sendRoomMessage,
 };

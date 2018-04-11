@@ -30,7 +30,7 @@ const validate = values => {
 const SignUpForm = props => {
   const { error, handleSubmit, submitting } = props;
   return (
-    <div className="form-wrapper height-100">
+    <div className="form-wrapper h-100">
       <form className="form-signup" onSubmit={handleSubmit}>
         <div className="text-center mb-4">
           <h1 className="h3 mb-3 font-weight-normal">Sign up</h1>

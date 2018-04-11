@@ -8,20 +8,18 @@ class HomePage extends Component {
 
   render () {
     return (
-      <div className="display-flex height-100">
+      <div className="h-100">
         <Navbar />
-        <div className="container-fluid flex-1">
-          <div className="row height-100">
+        <div className="content">
             <Sidebar/>
             { this.props.chat.selectedRoom && <ChatWindow />}
-          </div>
         </div>
       </div>
     );
   }
 }
 
-function mapStateToProps (state) {
+const mapStateToProps = (state) => {
   return {
     chat: state.chat,
   };
